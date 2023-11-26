@@ -24,7 +24,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import LocalizedString from './localization/LocalizedString';
+import Localizer from './localization/Localizer';
+import { Language } from './localization/Languages';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -58,7 +59,8 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const strings = new LocalizedString();
+  const translation = require("../res/strings.json");
+  const strings = new Localizer(translation);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -78,7 +80,7 @@ function App(): JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Step One">
-            {require('../res/strings.csv')}
+            {strings.get("test0", Language.German)}
           </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
