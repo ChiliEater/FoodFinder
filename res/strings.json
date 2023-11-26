@@ -2,5 +2,9 @@
     "test0": {
         "english": "English 0",
         "german": "German 0"
+    },
+    "test1": {
+        "english": "English 1",
+        "german": "German 1"
     }
 }

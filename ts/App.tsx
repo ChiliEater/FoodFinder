@@ -5,14 +5,16 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+    Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  Touchable,
   useColorScheme,
   View,
 } from 'react-native';
@@ -26,10 +28,13 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import Localizer from './localization/Localizer';
 import { Language } from './localization/Languages';
+import CategoryCell from './components/landing/CategoryCell';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+
+export const localizer: Localizer = new Localizer(require("../res/strings.json"));
 
 function Section({children, title}: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -59,8 +64,7 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-  const translation = require("../res/strings.json");
-  const strings = new Localizer(translation);
+  const [language, setLanguage] = useState(Language.English);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -80,11 +84,14 @@ function App(): JSX.Element {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Step One">
-            {strings.get("test0", Language.German)}
+            {localizer.get("test0", language)}
+            <CategoryCell language={language}/>
           </Section>
+          <Pressable onTouchEnd={() => setLanguage(Language.German)}>
           <Section title="See Your Changes">
             <ReloadInstructions />
           </Section>
+          </Pressable>
           <Section title="Debug">
             <DebugInstructions />
           </Section>
