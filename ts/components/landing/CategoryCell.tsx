@@ -1,15 +1,18 @@
 import { Text } from "react-native";
 import { Language } from "../../localization/Languages"
-import { localizer } from "../../App";
+import { useContext } from "react";
+import { LocalizerContext, LanguageContext } from "../../App";
 
 type CategoryCellProps = {
     language: Language,
 };
 
-const CategoryCell = (props: CategoryCellProps) => {
+const CategoryCell = () => {
+    const localizer = useContext(LocalizerContext);
+    const language = useContext(LanguageContext);
     return (
         <Text>
-            {localizer.get("test1", props.language)}
+            {localizer.get("test1", language)}
         </Text>
     );
 };

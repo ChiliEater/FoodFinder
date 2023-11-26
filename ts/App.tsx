@@ -5,123 +5,91 @@
  * @format
  */
 
-import React, { useState } from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import type { PropsWithChildren } from 'react';
 import {
     Pressable,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  Touchable,
-  useColorScheme,
-  View,
+    SafeAreaView,
+    ScrollView,
+    Settings,
+    StatusBar,
+    StyleSheet,
+    Text,
+    Touchable,
+    useColorScheme,
+    View,
 } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+    Colors,
+    DebugInstructions,
+    Header,
+    LearnMoreLinks,
+    ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Localizer from './localization/Localizer';
 import { Language } from './localization/Languages';
 import CategoryCell from './components/landing/CategoryCell';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Landing from './components/landing/Landing';
+import Bookmarks from './components/bookmarks/Bookmarks';
+import MapView from './components/map/MapView';
+import Cart from './components/cart/Cart';
+import UserSettings from './components/settings/UserSettings';
 
 type SectionProps = PropsWithChildren<{
-  title: string;
+    title: string;
 }>;
 
-export const localizer: Localizer = new Localizer(require("../res/strings.json"));
+export const LocalizerContext = createContext(new Localizer(require("../res/strings.json")))
+export const LanguageContext = createContext(Language.English);
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const Tab = createBottomTabNavigator();
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  const [language, setLanguage] = useState(Language.English);
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+    //const isDarkMode = useColorScheme() === 'dark';
+    const isDarkMode = false;
+    const language = useContext(LanguageContext);
+    const localizer = useContext(LocalizerContext);
+    const backgroundStyle = {
+        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            {localizer.get("test0", language)}
-            <CategoryCell language={language}/>
-          </Section>
-          <Pressable onTouchEnd={() => setLanguage(Language.German)}>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          </Pressable>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+    return (
+        <NavigationContainer>
+            <StatusBar
+                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                backgroundColor={backgroundStyle.backgroundColor}
+            />
+            <Tab.Navigator>
+                <Tab.Screen name='Landing' component={Landing}/>
+                <Tab.Screen name='Map' component={MapView}/>
+                <Tab.Screen name='Bookmarks' component={Bookmarks}/>
+                <Tab.Screen name='Settings' component={UserSettings}/>
+                <Tab.Screen name='Cart' component={Cart}/>
+            </Tab.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+    sectionContainer: {
+        marginTop: 32,
+        paddingHorizontal: 24,
+    },
+    sectionTitle: {
+        fontSize: 24,
+        fontWeight: '600',
+    },
+    sectionDescription: {
+        marginTop: 8,
+        fontSize: 18,
+        fontWeight: '400',
+    },
+    highlight: {
+        fontWeight: '700',
+    },
 });
 
 export default App;

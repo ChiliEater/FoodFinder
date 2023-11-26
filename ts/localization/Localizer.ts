@@ -21,12 +21,12 @@ class Localizer {
         let localization = this.strings.get(key);
         if (localization === undefined) {
             console.log(`No translations found for "${key}"`);
-            return key;
+            return '$' + key;
         }
         let translation = localization.get(language);
         if (translation == undefined) {
             console.log(`No translation found for "${key}" in "${language}"`);
-            return key;
+            return '$' + key;
         }
         return translation;
     }
