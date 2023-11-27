@@ -5,31 +5,18 @@
  * @format
  */
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
-    Pressable,
-    SafeAreaView,
-    ScrollView,
-    Settings,
     StatusBar,
     StyleSheet,
-    Text,
-    Touchable,
-    useColorScheme,
-    View,
 } from 'react-native';
 
 import {
     Colors,
-    DebugInstructions,
-    Header,
-    LearnMoreLinks,
-    ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Localizer from './localization/Localizer';
 import { Language } from './localization/Languages';
-import CategoryCell from './components/landing/CategoryCell';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Landing from './components/landing/Landing';
@@ -37,6 +24,7 @@ import Bookmarks from './components/bookmarks/Bookmarks';
 import MapView from './components/map/MapView';
 import Cart from './components/cart/Cart';
 import UserSettings from './components/settings/UserSettings';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type SectionProps = PropsWithChildren<{
     title: string;
@@ -46,6 +34,8 @@ export const LocalizerContext = createContext(new Localizer(require("../res/stri
 export const LanguageContext = createContext(Language.English);
 
 const Tab = createBottomTabNavigator();
+
+type TabIconProps = { focused: boolean, color: string, size: number };
 
 function App(): JSX.Element {
     //const isDarkMode = useColorScheme() === 'dark';
@@ -62,12 +52,78 @@ function App(): JSX.Element {
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={backgroundStyle.backgroundColor}
             />
-            <Tab.Navigator>
-                <Tab.Screen name='Landing' component={Landing}/>
-                <Tab.Screen name='Map' component={MapView}/>
-                <Tab.Screen name='Bookmarks' component={Bookmarks}/>
-                <Tab.Screen name='Settings' component={UserSettings}/>
-                <Tab.Screen name='Cart' component={Cart}/>
+            <Tab.Navigator
+                backBehavior='history'
+            >
+                <Tab.Screen
+                    name='Landing'
+                    component={Landing}
+                    options={{
+                        tabBarIcon: (props: TabIconProps) => (
+                            <Icon 
+                                name='category' 
+                                size={props.size}
+                                color={props.color}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tab.Screen
+                    name='Map'
+                    component={MapView}
+                    options={{
+                        tabBarIcon: (props: TabIconProps) => (
+                            <Icon 
+                                name='map' 
+                                size={props.size}
+                                color={props.color}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tab.Screen
+                    name='Bookmarks'
+                    component={Bookmarks}
+                    options={{
+                        tabBarIcon: (props: TabIconProps) => (
+                            <Icon 
+                                name='bookmark' 
+                                size={props.size}
+                                color={props.color}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tab.Screen
+                    name='Settings'
+                    component={UserSettings}
+                    options={{
+                        tabBarIcon: (props: TabIconProps) => (
+                            <Icon 
+                                name='settings' 
+                                size={props.size}
+                                color={props.color}
+                            />
+                        ),
+                    }}
+                />
+
+                <Tab.Screen
+                    name='Cart'
+                    component={Cart}
+                    options={{
+                        tabBarIcon: (props: TabIconProps) => (
+                            <Icon 
+                                name='shopping-cart' 
+                                size={props.size}
+                                color={props.color}
+                            />
+                        ),
+                    }}
+               />
             </Tab.Navigator>
         </NavigationContainer>
     );

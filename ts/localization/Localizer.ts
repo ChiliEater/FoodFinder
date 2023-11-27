@@ -14,7 +14,6 @@ class Localizer {
                     return [language, localization[key][languageString]];
                 }
             ))]));
-        console.log(this.strings);
     }
 
     public get(key: string, language: Language): string {
