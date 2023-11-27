@@ -5,5 +5,45 @@
     },
     "test1": {
         "english": "English 1"
+    },
+    "burgerCategory": {
+        "english": "Burger",
+        "german": "Burger"
+    },
+    "chineseCategory": {
+        "english": "Chinese",
+        "german": "Chinesisch"
+    },
+    "donutsCategory": {
+        "english": "Donuts",
+        "german": "Donuts"
+    },
+    "fishCategory": {
+        "english": "Fish",
+        "german": "Fisch"
+    },
+    "italianCategory": {
+        "english": "Italian",
+        "german": "Italienisch"
+    },
+    "japaneseCategory": {
+        "english": "Japanese",
+        "german": "Japanisch"
+    },
+    "mexicanCategory": {
+        "english": "Mexican",
+        "german": "Mexikanisch"
+    },
+    "pizzaCategory": {
+        "english": "Pizza",
+        "german": "Pizza"
+    },
+    "sandwichCategory": {
+        "english": "Sandwich",
+        "german": "Brötchen"
+    },
+    "vietnameseCategory": {
+        "english": "Vietnamese",
+        "german": "Vietnamesisch"
     }
 }
