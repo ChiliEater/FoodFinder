@@ -25,43 +25,51 @@ import MapView from './components/map/MapView';
 import Cart from './components/cart/Cart';
 import UserSettings from './components/settings/UserSettings';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Themes } from './themes/Themes';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 type SectionProps = PropsWithChildren<{
     title: string;
 }>;
 
 export const LocalizerContext = createContext(new Localizer(require("../res/strings.json")))
-export const LanguageContext = createContext(Language.English);
+export const LanguageContext = createContext(Language.German);
+export const ThemeContext = createContext(Themes[1]);
 
 const Tab = createBottomTabNavigator();
 
 type TabIconProps = { focused: boolean, color: string, size: number };
 
 function App(): JSX.Element {
-    //const isDarkMode = useColorScheme() === 'dark';
-    const isDarkMode = false;
     const language = useContext(LanguageContext);
     const localizer = useContext(LocalizerContext);
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
+    const theme = useContext(ThemeContext);
+    changeNavigationBarColor(theme.styles.surface.backgroundColor, !theme.isDark);
 
     return (
         <NavigationContainer>
             <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={backgroundStyle.backgroundColor}
+                barStyle={theme.isDark ? 'light-content' : 'dark-content'}
+                backgroundColor={theme.styles.surface.backgroundColor}
+                
             />
             <Tab.Navigator
                 backBehavior='history'
+                screenOptions={{
+                    tabBarStyle: [theme.styles.surface],
+                    headerStyle: [{shadowOpacity: 0}],
+                    tabBarActiveTintColor: theme.styles.surfaceTint.color,
+                    tabBarInactiveTintColor: theme.styles.onSurface.color,
+                }}
             >
                 <Tab.Screen
                     name='Landing'
                     component={Landing}
                     options={{
+                        tabBarLabel: localizer.get("tabBrowse", language),
                         tabBarIcon: (props: TabIconProps) => (
-                            <Icon 
-                                name='category' 
+                            <Icon
+                                name='category'
                                 size={props.size}
                                 color={props.color}
                             />
@@ -73,9 +81,10 @@ function App(): JSX.Element {
                     name='Map'
                     component={MapView}
                     options={{
+                        tabBarLabel: localizer.get("tabMap", language),
                         tabBarIcon: (props: TabIconProps) => (
-                            <Icon 
-                                name='map' 
+                            <Icon
+                                name='map'
                                 size={props.size}
                                 color={props.color}
                             />
@@ -87,9 +96,10 @@ function App(): JSX.Element {
                     name='Bookmarks'
                     component={Bookmarks}
                     options={{
+                        tabBarLabel: localizer.get("tabBookmarks", language),
                         tabBarIcon: (props: TabIconProps) => (
-                            <Icon 
-                                name='bookmark' 
+                            <Icon
+                                name='bookmark'
                                 size={props.size}
                                 color={props.color}
                             />
@@ -101,9 +111,10 @@ function App(): JSX.Element {
                     name='Settings'
                     component={UserSettings}
                     options={{
+                        tabBarLabel: localizer.get("tabSettings", language),
                         tabBarIcon: (props: TabIconProps) => (
-                            <Icon 
-                                name='settings' 
+                            <Icon
+                                name='settings'
                                 size={props.size}
                                 color={props.color}
                             />
@@ -115,15 +126,16 @@ function App(): JSX.Element {
                     name='Cart'
                     component={Cart}
                     options={{
+                        tabBarLabel: localizer.get("tabCart", language),
                         tabBarIcon: (props: TabIconProps) => (
-                            <Icon 
-                                name='shopping-cart' 
+                            <Icon
+                                name='shopping-cart'
                                 size={props.size}
                                 color={props.color}
                             />
                         ),
                     }}
-               />
+                />
             </Tab.Navigator>
         </NavigationContainer>
     );

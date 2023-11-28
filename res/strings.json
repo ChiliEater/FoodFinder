@@ -45,5 +45,29 @@
     "vietnameseCategory": {
         "english": "Vietnamese",
         "german": "Vietnamesisch"
+    },
+    "tabBrowse": {
+        "english": "Browse",
+        "german": "Stöbern"
+    },
+    "tabMap": {
+        "english": "Map",
+        "german": "Karte"
+    },
+    "tabBookmarks": {
+        "english": "Bookmarks",
+        "german": "Merkliste"
+    },
+    "tabSettings": {
+        "english": "Settings",
+        "german": "Einstellungen"
+    },
+    "tabCart": {
+        "english": "Cart",
+        "german": "Warenkorb"
+    },
+    "dummy": {
+        "english": "",
+        "german": ""
     }
 }
