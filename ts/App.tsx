@@ -19,7 +19,7 @@ import Localizer from './localization/Localizer';
 import { Language } from './localization/Languages';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Landing from './components/landing/Landing';
+import BrowseContainer from './components/landing/BrowseContainer';
 import Bookmarks from './components/bookmarks/Bookmarks';
 import MapView from './components/map/MapView';
 import Cart from './components/cart/Cart';
@@ -56,16 +56,19 @@ function App(): JSX.Element {
             <Tab.Navigator
                 backBehavior='history'
                 screenOptions={{
-                    tabBarStyle: [theme.styles.surface],
-                    headerStyle: [{shadowOpacity: 0}],
+                    tabBarStyle: theme.styles.surface,
+                    headerStyle: theme.styles.surface,
+                    headerTitleStyle: theme.styles.onSurface,
+                    headerShadowVisible: false,
                     tabBarActiveTintColor: theme.styles.surfaceTint.color,
                     tabBarInactiveTintColor: theme.styles.onSurface.color,
                 }}
             >
                 <Tab.Screen
                     name='Landing'
-                    component={Landing}
+                    component={BrowseContainer}
                     options={{
+                        title: localizer.get("tabBrowse", language),
                         tabBarLabel: localizer.get("tabBrowse", language),
                         tabBarIcon: (props: TabIconProps) => (
                             <Icon
@@ -81,6 +84,7 @@ function App(): JSX.Element {
                     name='Map'
                     component={MapView}
                     options={{
+                        title: localizer.get("tabMap", language),
                         tabBarLabel: localizer.get("tabMap", language),
                         tabBarIcon: (props: TabIconProps) => (
                             <Icon
@@ -96,6 +100,7 @@ function App(): JSX.Element {
                     name='Bookmarks'
                     component={Bookmarks}
                     options={{
+                        title: localizer.get("tabBookmarks", language),
                         tabBarLabel: localizer.get("tabBookmarks", language),
                         tabBarIcon: (props: TabIconProps) => (
                             <Icon
@@ -111,6 +116,7 @@ function App(): JSX.Element {
                     name='Settings'
                     component={UserSettings}
                     options={{
+                        title: localizer.get("tabSettings", language),
                         tabBarLabel: localizer.get("tabSettings", language),
                         tabBarIcon: (props: TabIconProps) => (
                             <Icon
@@ -126,6 +132,7 @@ function App(): JSX.Element {
                     name='Cart'
                     component={Cart}
                     options={{
+                        title: localizer.get("tabCart", language),
                         tabBarLabel: localizer.get("tabCart", language),
                         tabBarIcon: (props: TabIconProps) => (
                             <Icon

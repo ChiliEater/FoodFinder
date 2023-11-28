@@ -66,6 +66,10 @@
         "english": "Cart",
         "german": "Warenkorb"
     },
+    "searchPlaceholder": {
+        "english": "Search",
+        "german": "Suche"
+    },
     "dummy": {
         "english": "",
         "german": ""
