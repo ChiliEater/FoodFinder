@@ -34,7 +34,7 @@ type SectionProps = PropsWithChildren<{
 
 export const LocalizerContext = createContext(new Localizer(require("../res/strings.json")))
 export const LanguageContext = createContext(Language.German);
-export const ThemeContext = createContext(Themes[1]);
+export const ThemeContext = createContext(Themes[0]);
 
 const Tab = createBottomTabNavigator();
 
@@ -51,12 +51,12 @@ function App(): JSX.Element {
             <StatusBar
                 barStyle={theme.isDark ? 'light-content' : 'dark-content'}
                 backgroundColor={theme.styles.surface.backgroundColor}
-                
+
             />
             <Tab.Navigator
                 backBehavior='history'
                 screenOptions={{
-                    tabBarStyle: theme.styles.surface,
+                    tabBarStyle: [theme.styles.surface, { borderColor: theme.styles.surface.backgroundColor }],
                     headerStyle: theme.styles.surface,
                     headerTitleStyle: theme.styles.onSurface,
                     headerShadowVisible: false,

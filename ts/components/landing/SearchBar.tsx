@@ -10,6 +10,7 @@ const SearchBar = () => {
         <TextInput
             placeholder={localizer.get("searchPlaceholder", language)}
             style={[theme.styles.primary, theme.styles.onPrimary, styles.bar]}
+            placeholderTextColor={theme.styles.onPrimary.color}
         />
     )
 }
@@ -19,6 +20,8 @@ const styles = StyleSheet.create({
         borderRadius: 90,
         paddingLeft: 20,
         paddingRight: 20,
+        width: 'auto',
+        flex: 9,
     }
 });
 

@@ -5,6 +5,7 @@ import { LanguageContext, LocalizerContext, ThemeContext } from "../../App";
 import SearchBar from "./SearchBar";
 import { createStackNavigator } from "@react-navigation/stack";
 import Browse from "./Browse";
+import Filter from "./Filter";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,14 @@ const BrowseContainer = () => {
                 component={Browse}
                 options={{
                     headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Filter"
+                component={Filter}
+                options={{
+                    headerShown: false,
+                    presentation: 'modal',
                 }}
             />
         </Stack.Navigator>
