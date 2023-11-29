@@ -3,16 +3,18 @@ import SearchBar from "./SearchBar";
 import { createContext, useContext, useEffect, useState } from "react";
 import { LocalizerContext, LanguageContext, ThemeContext } from "../../App";
 import FilterButton from "./FilterButton";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 import CategoryCell from "./CategoryCell";
 import Remote, { Category } from "../../remote/Remote";
 
 type BrowseProps = {
     navigation: NavigationProp<any, any>,
+    route: RouteProp<any>,
 }
 
-export const BrowseScreen = 'Browse';
-export const FilterScreen = 'Filter';
+export type BrowseScreenData = {
+    categories: boolean[],
+}
 
 const Browse = (props: BrowseProps) => {
     const localizer = useContext(LocalizerContext);
@@ -21,6 +23,7 @@ const Browse = (props: BrowseProps) => {
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<Category[]>();
+    const [usedCategories, setCategories] = useState<Category[]>([]);
 
     const getCategories = async () => {
         const categories: Category[] = await Remote.getCategories();
@@ -32,15 +35,24 @@ const Browse = (props: BrowseProps) => {
         getCategories();
     }, []);
 
+    useEffect(() => {
+        if (props.route.params?.categories) {
+            setCategories(data?.filter((_, i) => (props.route as RouteProp<{ params: BrowseScreenData }>).params.categories[i] ?? false) ?? []);
+        }
+    }, [props.route.params?.categories]);
+
     return (
         <ScrollView style={[styles.container, theme.styles.surface]}>
             <View style={styles.topBar}>
-                <SearchBar />
+                <SearchBar
+                    navigation={props.navigation}
+                    categories={usedCategories}
+                />
                 {
                     isLoading || !data ? (
-                        <ActivityIndicator color={theme.styles.onSurface.color}/>
+                        <ActivityIndicator color={theme.styles.onSurface.color} />
                     ) : (
-                        <FilterButton 
+                        <FilterButton
                             navigation={props.navigation}
                             categories={data}
                         />

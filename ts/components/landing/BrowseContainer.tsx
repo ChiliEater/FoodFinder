@@ -6,8 +6,13 @@ import SearchBar from "./SearchBar";
 import { createStackNavigator } from "@react-navigation/stack";
 import Browse from "./Browse";
 import Filter from "./Filter";
+import SearchResults from "./SearchResults";
 
 const Stack = createStackNavigator();
+
+export const ResultsScreen = "Results";
+export const FilterScreen = "Filter";
+export const BrowseScreen = "Browse";
 
 const BrowseContainer = () => {
     const localizer = useContext(LocalizerContext);
@@ -16,15 +21,23 @@ const BrowseContainer = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Browse"
+                name={BrowseScreen}
                 component={Browse}
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name="Filter"
+                name={FilterScreen}
                 component={Filter}
+                options={{
+                    headerShown: false,
+                    presentation: 'modal',
+                }}
+            />
+            <Stack.Screen
+                name={ResultsScreen}
+                component={SearchResults}
                 options={{
                     headerShown: false,
                     presentation: 'modal',

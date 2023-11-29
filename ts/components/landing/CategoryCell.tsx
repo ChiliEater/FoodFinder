@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { LocalizerContext, LanguageContext, ThemeContext } from "../../App";
 import Remote, { Category } from "../../remote/Remote";
 import { NavigationProp } from "@react-navigation/native";
+import { ResultsScreen } from "./BrowseContainer";
 
 type CategoryCellProps = {
     category: Category,
@@ -17,6 +18,7 @@ const CategoryCell = (props: CategoryCellProps) => {
     return (
         <Pressable
             style={[theme.styles.primary, styles.container]}
+            onTouchEnd={() => props.navigation.navigate(ResultsScreen)}
         >
             <Image
                 source={Remote.resolveImage(props.category.image)}

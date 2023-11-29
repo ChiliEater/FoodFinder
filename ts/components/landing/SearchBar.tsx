@@ -1,11 +1,20 @@
 import { useContext } from "react";
 import { StyleSheet, TextInput } from "react-native";
 import { LanguageContext, LocalizerContext, ThemeContext } from "../../App";
+import { NavigationProp } from "@react-navigation/native";
+import { Category } from "../../remote/Remote";
 
-const SearchBar = () => {
+type SearchBarProps = {
+    navigation: NavigationProp<any, any>,
+    categories: Category[],
+}
+
+const SearchBar = (props: SearchBarProps) => {
     const language = useContext(LanguageContext);
     const localizer = useContext(LocalizerContext);
     const theme = useContext(ThemeContext);
+
+    console.log(props.categories);
     return (
         <TextInput
             placeholder={localizer.get("searchPlaceholder", language)}

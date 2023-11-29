@@ -3,8 +3,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from '../../App';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { FilterScreen } from './Browse';
 import { Category } from '../../remote/Remote';
+import { FilterScreen } from './BrowseContainer';
 
 type FilterButtonProps = {
     navigation: NavigationProp<any, any>,

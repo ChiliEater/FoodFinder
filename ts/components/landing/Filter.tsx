@@ -5,6 +5,8 @@ import Remote, { Category } from "../../remote/Remote";
 import Checklist from "../common/Checklist";
 import { NavigationProp, Route, RouteProp, useRoute } from "@react-navigation/native";
 import { FilterData } from "./FilterButton";
+import { BrowseScreen } from "./BrowseContainer";
+import { BrowseScreenData } from "./Browse";
 
 type FilterProps = {
     navigation: NavigationProp<any, any>,
@@ -36,7 +38,7 @@ const Filter = (props: FilterProps) => {
                     ))}
                 </Checklist>
                 <Pressable 
-                    onTouchEnd={props.navigation.goBack}
+                    onTouchEnd={() => props.navigation.navigate(BrowseScreen, { categories: checkedFilters } as BrowseScreenData)}
                     style={[theme.styles.primaryContainer, styles.submitButton]}
                 >
                     <Text style={[theme.styles.onPrimaryContainer, styles.submitText]}>
