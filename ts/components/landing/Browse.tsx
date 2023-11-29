@@ -41,7 +41,7 @@ const Browse = (props: BrowseProps) => {
             <View style={styles.grid}>
                 {
                     isLoading || !data ? (
-                        <ActivityIndicator />
+                        <ActivityIndicator style={styles.indicator} />
                     ) : data.map(category => (
                         <CategoryCell
                             navigation={props.navigation}
@@ -75,7 +75,12 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         margin: 20,
+        gap: 20,
         flexWrap: "wrap",
+        justifyContent: 'space-around',
+    },
+    indicator: {
+        alignSelf: 'center',
     }
 });
 

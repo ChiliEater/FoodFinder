@@ -1,3 +1,5 @@
+import { ImageURISource } from "react-native";
+
 export type Category = {
     id: number,
     name: string,
@@ -17,6 +19,10 @@ class Remote {
             console.log("oopsie");
         }
         return Promise.resolve([]);
+    }
+
+    public static resolveImage(relativePath: string): ImageURISource {
+        return {uri: `${this.host}/${relativePath}`};
     }
 }
 

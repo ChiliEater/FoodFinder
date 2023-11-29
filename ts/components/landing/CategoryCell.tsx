@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Language } from "../../localization/Languages"
 import { useContext } from "react";
 import { LocalizerContext, LanguageContext, ThemeContext } from "../../App";
-import { Category } from "../../remote/Remote";
+import Remote, { Category } from "../../remote/Remote";
 import { NavigationProp } from "@react-navigation/native";
 
 type CategoryCellProps = {
@@ -18,6 +18,10 @@ const CategoryCell = (props: CategoryCellProps) => {
         <Pressable
             style={[theme.styles.primary, styles.container]}
         >
+            <Image
+                source={Remote.resolveImage(props.category.image)}
+                style={styles.image}
+            />
             <Text style={theme.styles.onPrimary}>
                 {localizer.get(props.category.name, language)}
             </Text>
@@ -27,7 +31,19 @@ const CategoryCell = (props: CategoryCellProps) => {
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 90,
+        borderRadius: 20,
+        display: 'flex',
+        gap: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 12,
+    },
+
+    image: {
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        width: 150,
+        height: 100,
     }
 });
 
