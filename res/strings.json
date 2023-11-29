@@ -78,6 +78,10 @@
         "english": "Okay",
         "german": "Okay"
     },
+    "searchTitle": {
+        "english": "Search results",
+        "german": "Suchresultate"
+    },
     "dummy": {
         "english": "",
         "german": ""

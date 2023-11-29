@@ -30,9 +30,18 @@ class Remote {
         return Promise.resolve([]);
     }
 
-    public static async getProductsInCategory(id: number) {
+    public static async searchProducts(category?: number, keyword?: string) {
         try {
-            const res = await fetch(`${this.host}/products?category=${id}`);
+            let url = `${this.host}/products?`;
+            if (category) {
+                url += `category=${category}&`;
+            }
+            
+            if (keyword) {
+                url += `name=${keyword}&`;
+            }
+            console.log(url);
+            const res = await fetch(url);
             return res.json() as Promise<Product[]>;
         } catch (error) {
             console.log("Error getting products in category")

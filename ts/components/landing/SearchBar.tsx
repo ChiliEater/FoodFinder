@@ -22,10 +22,14 @@ const SearchBar = (props: SearchBarProps) => {
             style={[theme.styles.primary, theme.styles.onPrimary, styles.bar]}
             placeholderTextColor={theme.styles.onPrimary.color}
             onSubmitEditing={(text) => {
+                let str: string | undefined;
+                if (text.nativeEvent.text !== '') {
+                    str = text.nativeEvent.text;
+                }
                 const query: ProductQuery = {
                     categories: props.categories,
-                    keyword: text.nativeEvent.text,
-                }
+                    keyword: str,
+                };
                 props.navigation.navigate(ResultsScreen, query);
             }}
         />
