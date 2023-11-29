@@ -70,6 +70,14 @@
         "english": "Search",
         "german": "Suche"
     },
+    "filtersTitle": {
+        "english": "Categories",
+        "german": "Kategorien"
+    },
+    "filterSubmit": {
+        "english": "Okay",
+        "german": "Okay"
+    },
     "dummy": {
         "english": "",
         "german": ""

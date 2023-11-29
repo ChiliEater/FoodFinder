@@ -4,10 +4,16 @@ import { ThemeContext } from '../../App';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { FilterScreen } from './Browse';
+import { Category } from '../../remote/Remote';
 
 type FilterButtonProps = {
     navigation: NavigationProp<any, any>,
+    categories: Category[]
 }
+
+export type FilterData = { 
+    categories: Category[],
+};
 
 const FilterButton = (props: FilterButtonProps) => {
     const theme = useContext(ThemeContext);
@@ -15,7 +21,10 @@ const FilterButton = (props: FilterButtonProps) => {
         <Pressable
             style={[styles.container]}
             onTouchEnd={() => {
-                props.navigation.navigate(FilterScreen);
+                let filterProps: FilterData = {
+                    categories: props.categories, 
+                };
+                props.navigation.navigate(FilterScreen, filterProps);
             }}
         >
             <Icon

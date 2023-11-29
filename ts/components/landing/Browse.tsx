@@ -36,7 +36,16 @@ const Browse = (props: BrowseProps) => {
         <ScrollView style={[styles.container, theme.styles.surface]}>
             <View style={styles.topBar}>
                 <SearchBar />
-                <FilterButton navigation={props.navigation} />
+                {
+                    isLoading || !data ? (
+                        <ActivityIndicator color={theme.styles.onSurface.color}/>
+                    ) : (
+                        <FilterButton 
+                            navigation={props.navigation}
+                            categories={data}
+                        />
+                    )
+                }
             </View>
             <View style={styles.grid}>
                 {
