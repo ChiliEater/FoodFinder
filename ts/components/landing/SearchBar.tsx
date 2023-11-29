@@ -3,6 +3,8 @@ import { StyleSheet, TextInput } from "react-native";
 import { LanguageContext, LocalizerContext, ThemeContext } from "../../App";
 import { NavigationProp } from "@react-navigation/native";
 import { Category } from "../../remote/Remote";
+import { ResultsScreen } from "./BrowseContainer";
+import { ProductQuery } from "./SearchResults";
 
 type SearchBarProps = {
     navigation: NavigationProp<any, any>,
@@ -14,12 +16,18 @@ const SearchBar = (props: SearchBarProps) => {
     const localizer = useContext(LocalizerContext);
     const theme = useContext(ThemeContext);
 
-    console.log(props.categories);
     return (
         <TextInput
             placeholder={localizer.get("searchPlaceholder", language)}
             style={[theme.styles.primary, theme.styles.onPrimary, styles.bar]}
             placeholderTextColor={theme.styles.onPrimary.color}
+            onSubmitEditing={(text) => {
+                const query: ProductQuery = {
+                    categories: props.categories,
+                    keyword: text.nativeEvent.text,
+                }
+                props.navigation.navigate(ResultsScreen, query);
+            }}
         />
     )
 }
