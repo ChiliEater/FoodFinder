@@ -2,17 +2,20 @@ import { useContext } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ThemeContext } from '../../App';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { FilterScreen } from './Browse';
 
-const FilterButton = () => {
+type FilterButtonProps = {
+    navigation: NavigationProp<any, any>,
+}
+
+const FilterButton = (props: FilterButtonProps) => {
     const theme = useContext(ThemeContext);
-    const navigator = useNavigation();
     return (
         <Pressable
             style={[styles.container]}
             onTouchEnd={() => {
-                navigator.navigate(FilterScreen as never);
+                props.navigation.navigate(FilterScreen);
             }}
         >
             <Icon
