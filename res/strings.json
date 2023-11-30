@@ -90,6 +90,14 @@
         "english": "Bookmark",
         "german": "Merken"
     },
+    "total": {
+        "english": "Total",
+        "german": "Total"
+    },
+    "buyNow": {
+        "english": "Buy now",
+        "german": "Jetzt kaufen"
+    },
     "dummy": {
         "english": "",
         "german": ""

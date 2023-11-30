@@ -30,6 +30,7 @@ const ProductPage = (props: ProductPageProp) => {
                 <Text style={[theme.styles.onTertiary, styles.price]}>{`${route.params.product.price}.-`}</Text>
                 <Text style={[theme.styles.onTertiary, styles.name]}>{route.params.product.name}</Text>
                 <Text style={[theme.styles.onTertiary, styles.address]}>{route.params.product.location}</Text>
+                <Text style={[theme.styles.onTertiary, styles.address]}>{route.params.product.contact}</Text>
                 <CartButton product={route.params.product}/>
                 <BookmarkButton product={route.params.product}/>
                 <View style={styles.imageGrid}>

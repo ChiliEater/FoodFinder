@@ -1,0 +1,108 @@
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import Remote, { CartItem, Product } from "../../remote/Remote";
+import { useContext } from "react";
+import { LanguageContext, LocalizerContext, ThemeContext } from "../../App";
+import { NavigationProp } from "@react-navigation/native";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { ProductPageData } from "../product/ProductPage";
+import { ProductScreen } from "./CartContainer";
+
+type CartEntryProps = {
+    product: Product,
+    remove: () => void,
+    navigation: NavigationProp<any, any>,
+};
+
+const CartEntry = (props: CartEntryProps) => {
+    const theme = useContext(ThemeContext);
+    const language = useContext(LanguageContext);
+    const localizer = useContext(LocalizerContext);
+
+    const navigation = props.navigation;
+    return (
+        <View style={styles.container}>
+                <Pressable
+                    style={[theme.styles.primary, styles.product]}
+                    onTouchEnd={() => {
+                        const data: ProductPageData = {
+                            product: props.product,
+                        };
+                        navigation.navigate(ProductScreen, data);
+                    }}
+                >
+                    <Image
+                        source={Remote.resolveImage(props.product.images.split(',')[0])}
+                        style={styles.image}
+                    />
+                    <View style={styles.text}>
+                        <Text style={[theme.styles.onPrimary, styles.title]}>{props.product.name}</Text>
+                        <Text style={[theme.styles.onPrimary, styles.price]}>{`${props.product.price}.-`}</Text>
+                        <Text style={[theme.styles.onPrimary, styles.price]}>{`${props.product.location}`}</Text>
+                    </View>
+                </Pressable>
+
+                <Pressable
+                    style={styles.delete}
+                    onTouchEnd={props.remove}
+                >
+                    <Icon
+                        name="delete"
+                        style={theme.styles.onSurface}
+                        size={30}
+                    />
+                </Pressable>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        gap: 10,
+        flexDirection: 'row',
+    },
+    subcontainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'stretch',
+    },
+    product: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 10,
+        padding: 10,
+        borderRadius: 20,
+        flexGrow: 1,
+        flexShrink: 1,
+    },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 20,
+    },
+    text: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexShrink: 1,
+        alignItems: 'flex-start'
+    },
+    title: {
+        fontSize: 28,
+        flexWrap: 'wrap'
+    },
+    price: {
+        fontSize: 20,
+        flexWrap: 'wrap'
+        
+    },
+    delete: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+    },
+
+});
+
+export default CartEntry;

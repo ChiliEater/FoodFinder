@@ -29,6 +29,7 @@ import { Themes } from './themes/Themes';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import BookmarksContainer from './components/bookmarks/BookmarksContainer';
 import Settings from './components/settings/Settings';
+import CartContainer from './components/cart/CartContainer';
 
 type SectionProps = PropsWithChildren<{
     title: string;
@@ -37,6 +38,8 @@ type SectionProps = PropsWithChildren<{
 export const LocalizerContext = createContext(new Localizer(require("../res/strings.json")))
 export const LanguageContext = createContext(Language.German);
 export const ThemeContext = createContext(Themes[0]);
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms)); // Break in case of emergency
+
 
 const Tab = createBottomTabNavigator();
 
@@ -134,7 +137,7 @@ function App(): JSX.Element {
 
                 <Tab.Screen
                     name='Cart'
-                    component={Cart}
+                    component={CartContainer}
                     options={{
                         title: localizer.get("tabCart", language),
                         tabBarLabel: localizer.get("tabCart", language),

@@ -13,6 +13,7 @@ export type Product = {
     price: number,
     location: string,
     images: string,
+    contact: string,
 };
 
 export type CartItem = {
@@ -27,7 +28,7 @@ class Remote {
     private static host = "http://100.64.0.4:7777";
 
     private static cartListeners: Map<string, CartListener> = new Map();
-    
+
     private constructor() { }
 
     public static async getCategories() {
@@ -46,7 +47,7 @@ class Remote {
             if (category) {
                 url += `category=${category}&`;
             }
-            
+
             if (keyword) {
                 url += `name=${keyword}&`;
             }
@@ -71,6 +72,7 @@ class Remote {
             images: 'img/error.jpg',
             location: 'ERR_NO_LOCATION',
             name: 'ERR_NO_NAME',
+            contact: 'ERR_NO_CONTACT',
             price: 999999999,
         };
     }
@@ -85,10 +87,10 @@ class Remote {
 
     public static addCartListener(key: string, callback: CartListener) {
         this.cartListeners.set(key, callback);
+        this.cartListeners.forEach(f => f());
     }
 
     public static async addToCart(item: CartItem) {
-        console.log(JSON.stringify(item));
         const res = await fetch(`${this.host}/carts`, {
             method: 'POST',
             headers: {
@@ -107,20 +109,37 @@ class Remote {
         const res = await fetch(`${this.host}/carts/${item}`, {
             method: "DELETE",
         });
+        this.cartListeners.forEach(f => f());
     }
 
-    public static async getCart(user: number): Promise<CartItem[]> {
+    public static async getCart(user: number): Promise<Map<number, Product>> {
         try {
             const res = await fetch(`${this.host}/carts?user=${user}`);
-            return res.json() as Promise<CartItem[]>
+            const ids = await (res.json() as Promise<CartItem[]>);
+            const items = await this.getProducts(ids.map(id => id.productId));
+            return new Map(
+                items.map((product, i) => {
+                    return [ids[i].id as number, product];
+                })
+            );
         } catch (error) {
             console.log("Error getting cart");
         }
-        return [];
+        return new Map();
+    }
+
+    public static async clearCart(user: number) {
+        const cart = await this.getCart(user);
+        for (const id of cart.keys()) {
+            const res = await fetch(`${this.host}/carts/${id}`, {
+                method: "DELETE",
+            });
+        }
+        this.cartListeners.forEach(f => f());
     }
 
     public static resolveImage(relativePath: string): ImageURISource {
-        return {uri: `${this.host}/${relativePath}`};
+        return { uri: `${this.host}/${relativePath}` };
     }
 }
 
