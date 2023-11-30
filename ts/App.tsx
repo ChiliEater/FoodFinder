@@ -27,6 +27,8 @@ import UserSettings from './components/settings/UserSettings';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Themes } from './themes/Themes';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import BookmarksContainer from './components/bookmarks/BookmarksContainer';
+import Settings from './components/settings/Settings';
 
 type SectionProps = PropsWithChildren<{
     title: string;
@@ -45,6 +47,8 @@ function App(): JSX.Element {
     const localizer = useContext(LocalizerContext);
     const theme = useContext(ThemeContext);
     changeNavigationBarColor(theme.styles.surface.backgroundColor, !theme.isDark);
+
+    //Settings.reset();
 
     return (
         <NavigationContainer>
@@ -97,8 +101,8 @@ function App(): JSX.Element {
                 />
 
                 <Tab.Screen
-                    name='Bookmarks'
-                    component={Bookmarks}
+                    name='BookmarksContainer'
+                    component={BookmarksContainer}
                     options={{
                         title: localizer.get("tabBookmarks", language),
                         tabBarLabel: localizer.get("tabBookmarks", language),

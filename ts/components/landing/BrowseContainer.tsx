@@ -15,9 +15,6 @@ export const FilterScreen = "Filter";
 export const BrowseScreen = "Browse";
 
 const BrowseContainer = () => {
-    const localizer = useContext(LocalizerContext);
-    const language = useContext(LanguageContext);
-    const theme = useContext(ThemeContext);
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -46,9 +43,5 @@ const BrowseContainer = () => {
         </Stack.Navigator>
     );
 };
-
-const styles = StyleSheet.create({
-
-});
 
 export default BrowseContainer;

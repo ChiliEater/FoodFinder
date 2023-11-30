@@ -49,7 +49,7 @@ const Filter = (props: FilterProps) => {
         </ScrollView>
     );
 
-}
+};
 
 const styles = StyleSheet.create({
     container: {

@@ -49,6 +49,31 @@ class Remote {
         return Promise.resolve([]);
     }
 
+    public static async getProduct(product: number): Promise<Product> {
+        try {
+            const res = await fetch(`${this.host}/products/${product}`);
+            return res.json() as Promise<Product>;
+        } catch (error) {
+            console.log("Error getting product")
+        }
+        return Promise.resolve({
+            category: 0,
+            id: 9999,
+            images: 'img/error.jpg',
+            location: 'ERR_NO_LOCATION',
+            name: 'ERR_NO_NAME',
+            price: 999999999,
+        });
+    }
+
+    public static async getProducts(products: number[]): Promise<Product[]> {
+        let arr = [];
+        for (const product of products) {
+            arr.push(await this.getProduct(product));
+        }
+        return arr;
+    }
+
     public static resolveImage(relativePath: string): ImageURISource {
         return {uri: `${this.host}/${relativePath}`};
     }
