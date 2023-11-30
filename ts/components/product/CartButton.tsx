@@ -19,7 +19,6 @@ const CartButton = (props: CartButtonProps) => {
             style={[theme.styles.tertiaryContainer, styles.container]}
             onTouchEnd={async () => {
                 const user = await Settings.getUser();
-                console.log(user);
                 Remote.addToCart({
                     userId: user,
                     productId: props.product.id,

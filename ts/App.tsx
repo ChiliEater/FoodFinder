@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
     StatusBar,
@@ -25,7 +25,7 @@ import MapView from './components/map/MapView';
 import Cart from './components/cart/Cart';
 import UserSettings from './components/settings/UserSettings';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Themes } from './themes/Themes';
+import { Theme, Themes } from './themes/Themes';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import BookmarksContainer from './components/bookmarks/BookmarksContainer';
 import Settings from './components/settings/Settings';
@@ -46,112 +46,135 @@ const Tab = createBottomTabNavigator();
 type TabIconProps = { focused: boolean, color: string, size: number };
 
 function App(): JSX.Element {
-    const language = useContext(LanguageContext);
-    const localizer = useContext(LocalizerContext);
-    const theme = useContext(ThemeContext);
+    const [language, setLanguage] = useState(Language.English);
+    const [languageSubscribed, languageSubscribe] = useState(false);
+
+    const [localizer, setLocalizer] = useState(new Localizer(require("../res/strings.json")));
+    const [localizerSubscribed, localizerSubscribe] = useState(false);
+
+    const [theme, setTheme] = useState<Theme>(Themes[0]);
+    const [themeSubscribed, themeSubscribe] = useState(false);
+
+    if (!themeSubscribed) {
+        Settings.subscribeToTheme('app', t => setTheme(t));
+        themeSubscribe(true);
+    }
+
+    if (!languageSubscribed) {
+        Settings.subscribeToLanguage('app', l => setLanguage(l));
+        languageSubscribe(true);
+    }
+
     changeNavigationBarColor(theme.styles.surface.backgroundColor, !theme.isDark);
 
     //Settings.reset();
 
     return (
-        <NavigationContainer>
-            <StatusBar
-                barStyle={theme.isDark ? 'light-content' : 'dark-content'}
-                backgroundColor={theme.styles.surface.backgroundColor}
+        <LocalizerContext.Provider value={localizer}>
+            <LanguageContext.Provider value={language}>
+                <ThemeContext.Provider value={theme}>
 
-            />
-            <Tab.Navigator
-                backBehavior='history'
-                screenOptions={{
-                    tabBarStyle: [theme.styles.surface, { borderColor: theme.styles.surface.backgroundColor }],
-                    headerStyle: theme.styles.surface,
-                    headerTitleStyle: theme.styles.onSurface,
-                    headerShadowVisible: false,
-                    tabBarActiveTintColor: theme.styles.surfaceTint.color,
-                    tabBarInactiveTintColor: theme.styles.onSurface.color,
-                }}
-            >
-                <Tab.Screen
-                    name='Landing'
-                    component={BrowseContainer}
-                    options={{
-                        title: localizer.get("tabBrowse", language),
-                        tabBarLabel: localizer.get("tabBrowse", language),
-                        tabBarIcon: (props: TabIconProps) => (
-                            <Icon
-                                name='category'
-                                size={props.size}
-                                color={props.color}
-                            />
-                        ),
-                    }}
-                />
+                    <NavigationContainer>
+                        <StatusBar
+                            barStyle={theme.isDark ? 'light-content' : 'dark-content'}
+                            backgroundColor={theme.styles.surface.backgroundColor}
 
-                <Tab.Screen
-                    name='Map'
-                    component={MapView}
-                    options={{
-                        title: localizer.get("tabMap", language),
-                        tabBarLabel: localizer.get("tabMap", language),
-                        tabBarIcon: (props: TabIconProps) => (
-                            <Icon
-                                name='map'
-                                size={props.size}
-                                color={props.color}
+                        />
+                        <Tab.Navigator
+                            backBehavior='history'
+                            screenOptions={{
+                                tabBarStyle: [theme.styles.surface, { borderColor: theme.styles.surface.backgroundColor }],
+                                headerStyle: theme.styles.surface,
+                                headerTitleStyle: theme.styles.onSurface,
+                                headerShadowVisible: false,
+                                tabBarActiveTintColor: theme.styles.surfaceTint.color,
+                                tabBarInactiveTintColor: theme.styles.onSurface.color,
+                            }}
+                        >
+                            <Tab.Screen
+                                name='Landing'
+                                component={BrowseContainer}
+                                options={{
+                                    title: localizer.get("tabBrowse", language),
+                                    tabBarLabel: localizer.get("tabBrowse", language),
+                                    tabBarIcon: (props: TabIconProps) => (
+                                        <Icon
+                                            name='category'
+                                            size={props.size}
+                                            color={props.color}
+                                        />
+                                    ),
+                                }}
                             />
-                        ),
-                    }}
-                />
 
-                <Tab.Screen
-                    name='BookmarksContainer'
-                    component={BookmarksContainer}
-                    options={{
-                        title: localizer.get("tabBookmarks", language),
-                        tabBarLabel: localizer.get("tabBookmarks", language),
-                        tabBarIcon: (props: TabIconProps) => (
-                            <Icon
-                                name='bookmark'
-                                size={props.size}
-                                color={props.color}
+                            <Tab.Screen
+                                name='Map'
+                                component={MapView}
+                                options={{
+                                    title: localizer.get("tabMap", language),
+                                    tabBarLabel: localizer.get("tabMap", language),
+                                    tabBarIcon: (props: TabIconProps) => (
+                                        <Icon
+                                            name='map'
+                                            size={props.size}
+                                            color={props.color}
+                                        />
+                                    ),
+                                }}
                             />
-                        ),
-                    }}
-                />
 
-                <Tab.Screen
-                    name='Settings'
-                    component={UserSettings}
-                    options={{
-                        title: localizer.get("tabSettings", language),
-                        tabBarLabel: localizer.get("tabSettings", language),
-                        tabBarIcon: (props: TabIconProps) => (
-                            <Icon
-                                name='settings'
-                                size={props.size}
-                                color={props.color}
+                            <Tab.Screen
+                                name='BookmarksContainer'
+                                component={BookmarksContainer}
+                                options={{
+                                    title: localizer.get("tabBookmarks", language),
+                                    tabBarLabel: localizer.get("tabBookmarks", language),
+                                    tabBarIcon: (props: TabIconProps) => (
+                                        <Icon
+                                            name='bookmark'
+                                            size={props.size}
+                                            color={props.color}
+                                        />
+                                    ),
+                                }}
                             />
-                        ),
-                    }}
-                />
 
-                <Tab.Screen
-                    name='Cart'
-                    component={CartContainer}
-                    options={{
-                        title: localizer.get("tabCart", language),
-                        tabBarLabel: localizer.get("tabCart", language),
-                        tabBarIcon: (props: TabIconProps) => (
-                            <Icon
-                                name='shopping-cart'
-                                size={props.size}
-                                color={props.color}
+                            <Tab.Screen
+                                name='Settings'
+                                component={UserSettings}
+                                options={{
+                                    title: localizer.get("tabSettings", language),
+                                    tabBarLabel: localizer.get("tabSettings", language),
+                                    tabBarIcon: (props: TabIconProps) => (
+                                        <Icon
+                                            name='settings'
+                                            size={props.size}
+                                            color={props.color}
+                                        />
+                                    ),
+                                }}
                             />
-                        ),
-                    }}
-                />
-            </Tab.Navigator>
-        </NavigationContainer>
+
+                            <Tab.Screen
+                                name='Cart'
+                                component={CartContainer}
+                                options={{
+                                    title: localizer.get("tabCart", language),
+                                    tabBarLabel: localizer.get("tabCart", language),
+                                    tabBarIcon: (props: TabIconProps) => (
+                                        <Icon
+                                            name='shopping-cart'
+                                            size={props.size}
+                                            color={props.color}
+                                        />
+                                    ),
+                                }}
+                            />
+                        </Tab.Navigator>
+                    </NavigationContainer>
+                </ThemeContext.Provider>
+            </LanguageContext.Provider>
+        </LocalizerContext.Provider>
     );
 }
 

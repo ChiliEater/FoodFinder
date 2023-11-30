@@ -29,8 +29,6 @@ const Cart = (props: CartProps) => {
         Remote.addCartListener('cart', async () => {
             const user = await Settings.getUser();
             const items = await Remote.getCart(user);
-            console.log(items);
-            console.log(items.size);
             if (items.size > 0) {
                 const recs = await Remote.searchProducts([...items.values()][Random.int(0, items.size - 1)].category)
                 setRecommendations(recs);

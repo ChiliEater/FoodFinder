@@ -102,6 +102,14 @@
         "english": "Recommendations",
         "german": "Empfehlungen"
     },
+    "language": {
+        "english": "Language",
+        "german": "Sprache"
+    },
+    "theme": {
+        "english": "Theme",
+        "german": "Aussehen"
+    },
     "dummy": {
         "english": "",
         "german": ""

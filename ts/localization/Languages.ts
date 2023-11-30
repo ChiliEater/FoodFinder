@@ -1,8 +1,7 @@
 export enum Language {
-    English = "english",
-    German = "german",
-    Other = "other",
-}
+    English,
+    German,
+    Other}
 
 export const LanguageMap: Map<string, Language> = new Map([
     ["english", Language.English],
