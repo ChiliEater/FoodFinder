@@ -98,6 +98,10 @@
         "english": "Buy now",
         "german": "Jetzt kaufen"
     },
+    "recommendations": {
+        "english": "Recommendations",
+        "german": "Empfehlungen"
+    },
     "dummy": {
         "english": "",
         "german": ""

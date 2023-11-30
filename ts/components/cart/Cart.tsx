@@ -6,6 +6,8 @@ import Remote, { Product } from "../../remote/Remote";
 import Settings from "../settings/Settings";
 import CartEntry from "./CartEntry";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Recommendation from "./Recommendation";
+import Random from "../../random/Random";
 
 
 type CartProps = {
@@ -19,6 +21,7 @@ const Cart = (props: CartProps) => {
     const theme = useContext(ThemeContext);
 
     const [subscribed, setSubscription] = useState(false);
+    const [recommendations, setRecommendations] = useState<Product[]>([]);
     const [isLoading, setLoading] = useState(true);
     const [cartItems, setCartItems] = useState<Map<number, Product>>(new Map());
 
@@ -26,6 +29,12 @@ const Cart = (props: CartProps) => {
         Remote.addCartListener('cart', async () => {
             const user = await Settings.getUser();
             const items = await Remote.getCart(user);
+            console.log(items);
+            console.log(items.size);
+            if (items.size > 0) {
+                const recs = await Remote.searchProducts([...items.values()][Random.int(0, items.size - 1)].category)
+                setRecommendations(recs);
+            }
             setCartItems(items);
             setLoading(false);
         });
@@ -69,7 +78,7 @@ const Cart = (props: CartProps) => {
                     {`${localizer.get("total", language)}: ${calculatePrice()}.-`}
                 </Text>
                 <View style={styles.buttonBar}>
-                    <Pressable 
+                    <Pressable
                         style={[theme.styles.error, styles.button]}
                         onTouchEnd={async () => Remote.clearCart(await Settings.getUser())}
                     >
@@ -89,6 +98,31 @@ const Cart = (props: CartProps) => {
                         <Text style={[theme.styles.onPrimary, styles.buttonText]}>{localizer.get("buyNow", language)}</Text>
                     </Pressable>
                 </View>
+
+                <Text style={[theme.styles.onSurface, styles.recText]}>{localizer.get("recommendations", language)}</Text>
+                <ScrollView
+                    horizontal={true}
+                >
+                    <View
+                        style={styles.recContainer}
+                    >
+
+                        {
+                            isLoading ?
+                                (<ActivityIndicator
+                                    color={theme.styles.onSurface.color}
+                                    size={"large"}
+                                />)
+                                : recommendations.map(product => (
+                                    <Recommendation
+                                        navigation={props.navigation}
+                                        product={product}
+                                        key={product.id}
+                                    />
+                                ))
+                        }
+                    </View>
+                </ScrollView>
             </View>
         </ScrollView>
     );
@@ -123,6 +157,14 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 24,
+    },
+    recText: {
+        fontSize: 24,
+    },
+    recContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 20,
     }
 });
 
