@@ -40,7 +40,6 @@ class Remote {
             if (keyword) {
                 url += `name=${keyword}&`;
             }
-            console.log(url);
             const res = await fetch(url);
             return res.json() as Promise<Product[]>;
         } catch (error) {

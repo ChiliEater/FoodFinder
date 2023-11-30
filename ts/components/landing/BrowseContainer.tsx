@@ -7,12 +7,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Browse from "./Browse";
 import Filter from "./Filter";
 import SearchResults from "./SearchResults";
+import ProductPage from "../product/ProductPage";
 
 const Stack = createStackNavigator();
 
 export const ResultsScreen = "Results";
 export const FilterScreen = "Filter";
 export const BrowseScreen = "Browse";
+export const ProductScreen = "Product";
 
 const BrowseContainer = () => {
     return (
@@ -35,6 +37,14 @@ const BrowseContainer = () => {
             <Stack.Screen
                 name={ResultsScreen}
                 component={SearchResults}
+                options={{
+                    headerShown: false,
+                    presentation: 'modal',
+                }}
+            />
+            <Stack.Screen
+                name={ProductScreen}
+                component={ProductPage}
                 options={{
                     headerShown: false,
                     presentation: 'modal',

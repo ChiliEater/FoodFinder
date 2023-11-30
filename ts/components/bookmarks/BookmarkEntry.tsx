@@ -22,11 +22,9 @@ const BookmarkEntry = (props: BookmarkEntryProps) => {
                     style={[theme.styles.primaryContainer, styles.product]}
                     onTouchEnd={() => {
                         const data: ProductPageData = {
-                            id: props.product.id,
                             product: props.product,
                         };
-                        console.log(navigation.getState().routeNames)
-                        navigation.navigate(ProductScreen);
+                        navigation.navigate(ProductScreen, data);
                     }}
                 >
                     <Image

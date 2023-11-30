@@ -55,7 +55,6 @@ class Settings {
     public static subscribeToBookmark(key: string, callback: ListenerCallback) {
         this.ChangeBookmarkListeners.set(key, callback);
         this.ChangeBookmarkListeners.forEach(async f => f(await this.getBookmarks()));
-        console.log(this.ChangeBookmarkListeners);
     }
 
     public static async getBookmarks(): Promise<number[]> {
@@ -72,6 +71,7 @@ class Settings {
     public static async addBookmark(data: number) {
         let settings = await this.getData();
         settings.bookmarks.push(data);
+        settings.bookmarks = settings.bookmarks.filter((value, i, arr) => arr.indexOf(value) === i);
         this.setData(settings);
         this.ChangeBookmarkListeners.forEach(f => f(settings.bookmarks));
     }

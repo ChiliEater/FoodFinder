@@ -82,6 +82,14 @@
         "english": "Search results",
         "german": "Suchresultate"
     },
+    "addToCart": {
+        "english": "Add to cart",
+        "german": "In den Warenkorb"
+    },
+    "addBookmark": {
+        "english": "Bookmark",
+        "german": "Merken"
+    },
     "dummy": {
         "english": "",
         "german": ""

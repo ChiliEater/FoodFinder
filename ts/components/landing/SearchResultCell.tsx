@@ -2,9 +2,13 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Remote, { Product } from "../../remote/Remote";
 import { useContext } from "react";
 import { LanguageContext, LocalizerContext, ThemeContext } from "../../App";
+import { NavigationProp } from "@react-navigation/native";
+import { ProductPageData } from "../product/ProductPage";
+import { ProductScreen } from "./BrowseContainer";
 
 type SearchResultCellProps = {
     product: Product,
+    navigation: NavigationProp<any, any>,
 };
 
 const SearchResultCell = (props: SearchResultCellProps) => {
@@ -13,7 +17,15 @@ const SearchResultCell = (props: SearchResultCellProps) => {
     const theme = useContext(ThemeContext);
 
     return (
-        <Pressable style={[theme.styles.secondaryContainer, styles.container]}>
+        <Pressable 
+            style={[theme.styles.secondaryContainer, styles.container]}
+            onTouchEnd={() => {
+                const data: ProductPageData = {
+                    product: props.product,
+                }
+                props.navigation.navigate(ProductScreen, data);
+            }}
+        >
             <Image
                 source={Remote.resolveImage(props.product.images.split(',')[0])}
                 style={styles.image}

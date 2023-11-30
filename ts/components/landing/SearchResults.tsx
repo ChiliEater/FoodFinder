@@ -55,6 +55,7 @@ const SearchResults = (props: SearchResultsProps) => {
                         : results.map(product => (
                             <SearchResultCell
                                 product={product}
+                                navigation={props.navigation}
                                 key={product.id}
                             />
                         ))
