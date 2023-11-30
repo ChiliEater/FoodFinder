@@ -6,6 +6,7 @@ type SettingsData = {
     theme: number,
     language: Language,
     bookmarks: number[],
+    user: number,
 }
 
 type ListenerCallback = (n: number[]) => void;
@@ -15,6 +16,7 @@ class Settings {
         theme: 0,
         language: Language.English,
         bookmarks: [4,6,3],
+        user: 1,
     }
     private static readonly Key = 'settings';
     private static ChangeBookmarkListeners: Map<string, ListenerCallback> = new Map();
@@ -93,6 +95,16 @@ class Settings {
     public static async setLanguage(data: Language) {
         let settings = await this.getData();
         settings.language = data;
+        this.setData(settings);
+    }
+    
+    public static async getUser(): Promise<number> {
+        return (await this.getData()).user;
+    }
+
+    public static async setUser(data: number) {
+        let settings = await this.getData();
+        settings.user = data;
         this.setData(settings);
     }
 }

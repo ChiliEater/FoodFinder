@@ -2,7 +2,8 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import { LocalizerContext, LanguageContext, ThemeContext } from "../../App";
 import { useContext } from "react";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Product } from "../../remote/Remote";
+import Remote, { Product } from "../../remote/Remote";
+import Settings from "../settings/Settings";
 
 type CartButtonProps = {
     product: Product,
@@ -16,6 +17,14 @@ const CartButton = (props: CartButtonProps) => {
     return (
         <Pressable
             style={[theme.styles.tertiaryContainer, styles.container]}
+            onTouchEnd={async () => {
+                const user = await Settings.getUser();
+                console.log(user);
+                Remote.addToCart({
+                    userId: user,
+                    productId: props.product.id,
+                });
+            }}
         >
             <Icon
                 name="shopping-cart"
