@@ -110,6 +110,10 @@
         "english": "Theme",
         "german": "Aussehen"
     },
+    "construction": {
+        "english": "Under construction",
+        "german": "In Arbeit"
+    },
     "dummy": {
         "english": "",
         "german": ""
